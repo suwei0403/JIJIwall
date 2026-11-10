@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<title>創客作品牆</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --ground:#EDEFF4; --surface:#FFFFFF; --surface-2:#F4F6FB; --raise:0 1px 2px rgba(20,24,38,.06), 0 8px 24px rgba(20,24,38,.07);
+  --line:#D7DCE9; --line-soft:#E8EBF3;
+  --ink:#141826; --ink-2:#4B5268; --ink-3:#7E879E;
+  --accent:#2B4CF0; --accent-ink:#FFFFFF; --accent-soft:#E1E7FE;
+  --like:#E2571F; --like-soft:#FCE8DD;
+  --admin:#9A6B00; --admin-soft:#FFF1CC;
+  --t-video:#D9445A; --t-audio:#6F4BE0; --t-image:#128A62; --t-web:#2B4CF0; --t-link:#8A6320;
+  --tint:#F0F2F8;
+  --r-s:6px; --r-m:12px; --r-l:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D0F16; --surface:#161A24; --surface-2:#1E2230; --raise:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.35);
+    --line:#2C3244; --line-soft:#222736;
+    --ink:#E9ECF6; --ink-2:#A9B1C6; --ink-3:#737C93;
+    --accent:#7089FF; --accent-ink:#0D0F16; --accent-soft:#1D2450;
+    --like:#FF8A54; --like-soft:#3A2113;
+    --admin:#F2C14E; --admin-soft:#3A2F12;
+    --t-video:#FF7183; --t-audio:#A88CFF; --t-image:#3ECFA0; --t-web:#7089FF; --t-link:#D8AE5E;
+    --tint:#1B1F2C;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D0F16; --surface:#161A24; --surface-2:#1E2230; --raise:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.35);
+  --line:#2C3244; --line-soft:#222736;
+  --ink:#E9ECF6; --ink-2:#A9B1C6; --ink-3:#737C93;
+  --accent:#7089FF; --accent-ink:#0D0F16; --accent-soft:#1D2450;
+  --like:#FF8A54; --like-soft:#3A2113;
+  --admin:#F2C14E; --admin-soft:#3A2F12;
+  --t-video:#FF7183; --t-audio:#A88CFF; --t-image:#3ECFA0; --t-web:#7089FF; --t-link:#D8AE5E;
+  --tint:#1B1F2C;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  font-size:15px; line-height:1.65; margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:"Bricolage Grotesque","Noto Sans TC",system-ui,sans-serif;text-wrap:balance;margin:0;letter-spacing:-.01em}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.55;cursor:default}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.mono{font-family:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px}
+
+header.top{
+  position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ground) 88%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
+}
+.top-in{display:flex;align-items:center;gap:14px;padding:10px 0;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand h1{font-size:22px;font-weight:800;white-space:nowrap}
+.classbar{display:flex;gap:10px;align-items:center;margin-right:auto;flex-wrap:wrap}
+.grade{display:flex;align-items:center;border:1px solid var(--line);border-radius:99px;background:var(--surface);padding:2px}
+.grade button{border:0;background:transparent;border-radius:99px;padding:3px 10px;font-size:13px;font-family:"DM Mono",monospace;color:var(--ink-2)}
+.grade button[aria-pressed="true"]{background:var(--ink);color:var(--ground)}
+.grade button .mine{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-left:4px;vertical-align:2px}
+.counts{display:flex;gap:12px;font-size:12px;color:var(--ink-2)}
+.counts b{font-family:"DM Mono",monospace;font-weight:500;color:var(--ink);font-size:14px}
+.me{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);
+  border-radius:99px;padding:3px 6px 3px 3px;font-size:13px;white-space:nowrap}
+.av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px;flex:none}
+.linkbtn{background:none;border:0;color:var(--ink-3);font-size:11.5px;padding:0 4px;text-decoration:underline;text-underline-offset:3px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:7px 15px;font-size:13.5px;font-weight:500;transition:.15s;white-space:nowrap}
+.btn:hover{border-color:var(--ink-3)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent;font-weight:700}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.ghost{background:transparent}
+.btn.adm{display:flex;align-items:center;gap:6px;font-size:12.5px;padding:6px 12px;color:var(--ink-2)}
+.btn.adm.on{background:var(--admin-soft);color:var(--admin);border-color:color-mix(in srgb,var(--admin) 45%,transparent);font-weight:700}
+
+.adminbar{background:var(--admin-soft);color:var(--admin);font-size:13px;border-bottom:1px solid color-mix(in srgb,var(--admin) 30%,transparent)}
+.adminbar .wrap{display:flex;gap:10px;align-items:center;padding-top:6px;padding-bottom:6px}
+.adminbar[hidden]{display:none}
+
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px 0 18px}
+.wallhead{display:flex;align-items:baseline;gap:12px;margin-right:6px}
+.wallhead h2{font-size:28px;font-weight:800;font-family:"Bricolage Grotesque",sans-serif}
+.wallhead span{font-size:12.5px;color:var(--ink-3)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:transparent;border-radius:99px;padding:5px 12px;font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:6px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.chip .dot{width:7px;height:7px;border-radius:50%;flex:none}
+.search{flex:1;min-width:150px;max-width:250px;margin-left:auto;position:relative}
+.search input{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:7px 14px 7px 34px;font-size:13.5px}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink-3)}
+.sortsel{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:7px 12px;font-size:13.5px}
+
+.home-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:22px 0 18px}
+.home-head h2{font-size:29px;font-weight:800}
+.home-head p{margin:2px 0 0;font-size:13.5px;color:var(--ink-3)}
+.links-head{display:flex;align-items:center;gap:12px;padding:6px 0 10px}
+.links-head h3{font-size:14px;font-weight:700;letter-spacing:.06em;color:var(--ink-2)}
+.links-head .btn{margin-left:auto;padding:5px 12px;font-size:12.5px}
+.links{display:flex;gap:12px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.links[hidden]{display:none}
+.lk{position:relative;display:flex;align-items:center;gap:11px;min-width:220px;
+  background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--lk,var(--accent));
+  border-radius:var(--r-l);padding:13px 16px;box-shadow:var(--raise);text-decoration:none;color:inherit;
+  transition:transform .15s,border-color .15s}
+.lk:hover{transform:translateY(-2px)}
+.lk .emo{font-size:23px;line-height:1}
+.lk b{font-size:15.5px;font-weight:700;display:block}
+.lk span.host{font-size:11.5px;color:var(--ink-3);font-family:"DM Mono",monospace}
+.lk .go{margin-left:auto;color:var(--lk,var(--accent));font-weight:700;font-size:13px}
+.lk .tools{position:absolute;top:6px;right:8px;display:flex;gap:4px;opacity:0;transition:.15s}
+.lk:hover .tools{opacity:1}
+.lk .tools button{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:2px 7px;font-size:11px;color:var(--ink-2)}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;padding-bottom:64px}
+.cat{position:relative;display:flex;flex-direction:column;gap:6px;text-align:left;
+  background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--cat,var(--accent));
+  border-radius:var(--r-l);padding:18px 18px 16px;box-shadow:var(--raise);transition:transform .15s,border-color .15s}
+.cat:hover{transform:translateY(-3px)}
+.cat.dragging{opacity:.45}
+.cat.over{border-color:var(--accent)}
+.cat .emo{font-size:30px;line-height:1.1}
+.cat h3{font-size:18.5px;font-weight:700}
+.cat .cd{font-size:12.5px;color:var(--ink-3);min-height:1.2em}
+.cat .cn{margin-top:4px;font-family:"DM Mono",monospace;font-size:12.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.cat .cn b{color:var(--cat,var(--accent));font-weight:600}
+.cat .tools{position:absolute;top:10px;right:10px;display:flex;gap:4px;opacity:0;transition:.15s}
+.cat:hover .tools,.cat:focus-within .tools{opacity:1}
+.cat .tools button{border:1px solid var(--line);background:var(--surface);border-radius:8px;
+  padding:3px 8px;font-size:11.5px;color:var(--ink-2)}
+.cat .flag{display:inline-block;font-size:11px;font-weight:700;color:var(--admin);background:var(--admin-soft);
+  border-radius:var(--r-s);padding:1px 7px;margin-left:6px;vertical-align:2px}
+.cat .grip{position:absolute;left:-1px;top:50%;transform:translateY(-50%);width:5px;height:38px;border-radius:5px;
+  background:var(--cat,var(--accent));cursor:grab}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.swatch{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer}
+.swatch[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--surface) inset}
+.catmove{border:1px solid var(--line);background:var(--surface-2);border-radius:99px;padding:4px 10px;font-size:12.5px;color:var(--ink-2)}
+.catpick{display:grid;gap:6px}
+.catpick select{border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r-m);padding:9px 11px;font-size:14px}
+.visiting{display:flex;align-items:center;gap:14px;border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
+  background:var(--accent-soft);color:var(--ink);border-radius:var(--r-l);padding:12px 18px;margin-bottom:18px;font-size:14px}
+.visiting[hidden]{display:none}
+.visiting .ic{color:var(--accent);display:grid;place-items:center;flex:none}
+.visiting button{margin-left:auto;background:var(--surface)}
+.dropzone{display:flex;align-items:center;gap:14px;border:1.5px dashed var(--line);border-radius:var(--r-l);padding:14px 18px;margin-bottom:18px;
+  background:var(--surface);color:var(--ink-2);font-size:14px}
+.dropzone b{color:var(--ink)}
+.dropzone .ic{width:38px;height:38px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.dropzone .btn{margin-left:auto}
+
+.composer{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--raise);margin-bottom:24px;overflow:hidden}
+.composer[hidden]{display:none}
+.comp-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line-soft)}
+.comp-head h2{font-size:17px;font-weight:700}
+.comp-body{padding:18px 20px 20px;display:grid;gap:14px}
+.field{display:grid;gap:6px}
+.lab{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.lab .lock{color:var(--admin);letter-spacing:0;text-transform:none;font-weight:500;margin-left:4px}
+.field input[type=text],.field textarea,.field input[type=url]{
+  width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r-m);padding:10px 12px;font-size:14px}
+.field textarea{resize:vertical;min-height:80px}
+#w-code{font-family:"DM Mono",monospace;font-size:12.5px;line-height:1.6;min-height:190px;white-space:pre;overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.typegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.tbtn{border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r-m);padding:10px;display:grid;gap:3px;text-align:left;transition:.15s}
+.tbtn[aria-pressed="true"]{border-color:currentColor;background:color-mix(in srgb,currentColor 10%,var(--surface))}
+.tbtn .n{font-weight:700;font-size:14px;color:var(--ink)}
+.tbtn .d{font-size:11px;color:var(--ink-3);line-height:1.4}
+.tbtn .n::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:7px;vertical-align:1px}
+.drop{border:1.5px dashed var(--line);border-radius:var(--r-m);padding:18px;text-align:center;background:var(--surface-2);font-size:13.5px;color:var(--ink-2);display:block;cursor:pointer}
+.hint{font-size:12px;color:var(--ink-3)}
+.comp-foot{display:flex;align-items:center;gap:12px;justify-content:flex-end;flex-wrap:wrap}
+.err{color:var(--like);font-size:13px;margin-right:auto}
+
+.wall{columns:4 270px;column-gap:18px;padding-bottom:64px}
+.wall.is-empty{columns:1}
+.card{break-inside:avoid;margin:0 0 18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);
+  overflow:hidden;box-shadow:var(--raise);transition:transform .18s ease,border-color .18s}
+.card:hover{transform:translateY(-3px);border-color:var(--ink-3)}
+.card-open{display:block;width:100%;text-align:left;background:none;border:0;padding:0;color:inherit}
+.prev{position:relative;background:var(--tint);border-bottom:1px solid var(--line-soft);overflow:hidden;display:block}
+.prev img,.prev video{display:block;width:100%;height:auto;max-height:340px;object-fit:cover}
+.prev .frame{position:relative;height:190px;overflow:hidden}
+.prev .frame iframe{position:absolute;inset:0;width:200%;height:200%;transform:scale(.5);transform-origin:0 0;border:0;pointer-events:none;background:#fff}
+.prev .glyph{height:150px;display:grid;place-items:center;align-content:center;gap:8px;color:var(--ink-3)}
+.prev .glyph .big{font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.runtag{position:absolute;left:10px;bottom:10px;background:color-mix(in srgb,var(--ink) 88%,transparent);color:var(--ground);
+  font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;letter-spacing:.04em}
+.card-body{padding:12px 15px 12px;display:grid;gap:6px}
+.card-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.no{font-family:"Bricolage Grotesque","DM Mono",sans-serif;font-weight:800;font-size:30px;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.no small{font-size:.5em;color:var(--ink-3);font-weight:700;margin-right:1px}
+.kind{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.kind .dot{width:7px;height:7px;border-radius:50%}
+.secret{display:flex;align-items:flex-start;gap:6px;font-size:13px;font-weight:700;color:var(--admin);background:var(--admin-soft);
+  border-radius:var(--r-s);padding:4px 8px;line-height:1.45;overflow-wrap:anywhere}
+.secret svg{flex:none;margin-top:3px}
+.byline{font-size:12.5px;color:var(--ink-3);display:flex;align-items:center;gap:7px}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:11px;color:var(--ink-2);background:var(--tint);border-radius:var(--r-s);padding:2px 7px}
+.card-foot{display:flex;align-items:center;gap:6px;padding:9px 12px;border-top:1px solid var(--line-soft);background:var(--surface-2)}
+.act{display:flex;align-items:center;gap:6px;border:0;background:transparent;border-radius:99px;padding:5px 10px;font-size:13px;color:var(--ink-2);font-weight:500;text-decoration:none}
+.act:hover{background:var(--tint);color:var(--ink)}
+.act .n{font-family:"DM Mono",monospace;font-variant-numeric:tabular-nums}
+.act.liked{color:var(--like);background:var(--like-soft)}
+.act svg{flex:none}
+.spacer{margin-left:auto}
+.empty{text-align:center;padding:70px 20px;color:var(--ink-3);border:1.5px dashed var(--line);border-radius:var(--r-l)}
+.empty h3{font-size:19px;color:var(--ink-2);margin-bottom:6px}
+
+.scrim{position:fixed;inset:0;background:rgba(9,11,18,.6);backdrop-filter:blur(3px);z-index:60;display:grid;place-items:center;padding:24px;overflow:auto}
+.scrim[hidden]{display:none}
+.sheetwrap{position:relative;width:min(1120px,100%)}
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);width:100%;max-height:calc(100vh - 48px);
+  display:grid;grid-template-columns:1.6fr 1fr;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.stage{background:var(--tint);display:flex;flex-direction:column;min-width:0;overflow:auto;position:relative}
+.fsbtn{position:absolute;top:10px;right:10px;z-index:3;display:flex;align-items:center;gap:6px;
+  border:1px solid var(--line);background:color-mix(in srgb,var(--surface) 88%,transparent);
+  border-radius:99px;padding:5px 12px;font-size:12.5px;font-weight:600;backdrop-filter:blur(6px)}
+.sheetwrap.max{position:fixed;inset:0;width:100vw;max-width:none;z-index:70}
+.sheetwrap.max .sheet{height:100vh;max-height:100vh;border-radius:0;grid-template-columns:1fr}
+.sheetwrap.max .side{display:none}
+.sheetwrap.max .stage{overflow:hidden}
+.sheetwrap.max .stage-in{min-height:0;height:100%}
+.sheetwrap.max .stage iframe.live{min-height:0;height:100%}
+.sheetwrap.max .stage img{max-height:100vh}
+.sheetwrap.max .sheet-close{top:10px;right:120px}
+.stage-in{flex:1;display:grid;place-items:center;min-height:280px}
+.stage-in > *{max-width:100%}
+.stage iframe.live{width:100%;height:100%;min-height:460px;border:0;background:#fff;display:block}
+.stage img{max-height:70vh;object-fit:contain}
+.stage video{width:100%;max-height:70vh;background:#000}
+.audio-stage{display:grid;gap:18px;place-items:center;padding:40px 24px}
+.link-stage{display:grid;gap:14px;place-items:center;padding:48px 24px;text-align:center}
+.side{display:flex;flex-direction:column;border-left:1px solid var(--line);min-width:0}
+.side-head{padding:18px 20px 14px;border-bottom:1px solid var(--line-soft);display:grid;gap:8px}
+.side-head .no{font-size:40px}
+.desc{font-size:13.5px;color:var(--ink-2);white-space:pre-wrap;margin:0}
+.side-acts{display:flex;gap:8px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line-soft);flex-wrap:wrap}
+.cmts{flex:1;overflow:auto;padding:14px 20px;display:grid;gap:14px;align-content:start}
+.cmt{display:grid;grid-template-columns:28px 1fr;gap:10px}
+.cmt .who{font-size:12.5px;font-weight:700}
+.cmt .when{font-size:11px;color:var(--ink-3);font-weight:400;margin-left:6px;font-family:"DM Mono",monospace}
+.cmt p{margin:2px 0 0;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.cmt .del{font-size:11px;color:var(--ink-3);background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:2px;margin-left:8px}
+.cmt-form{border-top:1px solid var(--line-soft);padding:12px 16px;display:grid;gap:8px}
+.cmt-form textarea{width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r-m);padding:9px 11px;font-size:14px;min-height:62px;resize:vertical}
+.sheet-close{position:absolute;top:14px;right:16px;z-index:2;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);
+  background:var(--surface);display:grid;place-items:center;font-size:18px;line-height:1}
+
+.dialog{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:26px;width:min(460px,100%);display:grid;gap:16px;box-shadow:var(--raise)}
+.dialog h2{font-size:22px;font-weight:800}
+.dialog input[type=text],.dialog input[type=password]{border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r-m);padding:10px 12px;font-size:15px;width:100%}
+.gradepick{display:grid;gap:10px}
+.gradepick .row{display:grid;grid-template-columns:52px repeat(4,1fr);gap:8px;align-items:center}
+.gradepick .row span{font-size:12px;color:var(--ink-3);font-weight:700}
+.clsbtn{border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r-m);padding:12px 0;
+  font-family:"Bricolage Grotesque","DM Mono",sans-serif;font-weight:800;font-size:20px;font-variant-numeric:tabular-nums}
+.clsbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.dlg-foot{display:flex;gap:10px;justify-content:flex-end;align-items:center}
+
+.dragcover{position:fixed;inset:0;z-index:80;background:color-mix(in srgb,var(--accent) 16%,rgba(9,11,18,.55));display:grid;place-items:center;pointer-events:none}
+.dragcover[hidden]{display:none}
+.dragcover div{background:var(--surface);border:2px dashed var(--accent);border-radius:22px;padding:34px 46px;text-align:center;box-shadow:var(--raise)}
+.dragcover b{display:block;font-size:24px;font-family:"Bricolage Grotesque","Noto Sans TC",sans-serif;font-weight:800}
+.dragcover span{color:var(--ink-2);font-size:14px}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:var(--ground);
+  padding:10px 18px;border-radius:99px;font-size:13.5px;z-index:90;box-shadow:var(--raise);max-width:90vw;text-align:center}
+.toast[hidden]{display:none}
+.offline{background:var(--like-soft);color:var(--like);border:1px solid color-mix(in srgb,var(--like) 35%,transparent);
+  border-radius:var(--r-m);padding:12px 16px;font-size:13.5px;margin-top:14px}
+.offline[hidden]{display:none}
+@media (max-width:880px){
+  .sheet{grid-template-columns:1fr;grid-template-rows:auto 1fr;max-height:100vh;border-radius:0}
+  .side{border-left:0;border-top:1px solid var(--line)}
+  .stage iframe.live{min-height:320px}
+  .cmts{max-height:34vh}
+  .two{grid-template-columns:1fr}
+  .scrim{padding:0}
+  .sheetwrap{height:100%}
+  .dropzone .btn{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <div class="brand"><h1>創客作品牆</h1></div>
+    <nav class="classbar" id="classbar" aria-label="切換班級"></nav>
+    <div class="counts">
+      <span><b id="c-works">0</b> 件</span>
+      <span><b id="c-likes">0</b> 讚</span>
+      <span><b id="c-cmts">0</b> 評論</span>
+    </div>
+    <div class="me" id="me-chip" hidden>
+      <span class="av" id="me-av"></span><span id="me-name"></span><button class="linkbtn" id="me-edit" type="button">更改</button>
+    </div>
+    <button class="btn adm" id="btn-admin" type="button">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <span id="btn-admin-t">管理者</span>
+    </button>
+  </div>
+</header>
+<div class="adminbar" id="adminbar" hidden>
+  <div class="wrap">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    <span>管理者模式：看得到作品名稱，也可以刪除任何作品與評論。學生看到的只有編號。</span>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="offline" id="offline" hidden></div>
+
+  <section id="home">
+    <div class="home-head">
+      <div>
+        <h2>我的作品分類</h2>
+        <p id="home-sub">請選擇一個分類，進去看作品或貼上自己的作品。</p>
+      </div>
+      <button class="btn primary" id="cat-add" type="button" hidden>＋ 新增分類</button>
+    </div>
+    <div class="links-head" id="links-head" hidden>
+      <h3>老師的</h3>
+      <button class="btn" id="link-add" type="button" hidden>＋ 新增連結</button>
+    </div>
+    <div class="links" id="links" hidden></div>
+
+    <div class="links-head"><h3>作品分類</h3></div>
+    <div class="cats" id="cats"><p class="hint">載入分類中…</p></div>
+  </section>
+
+  <div id="wallview" hidden>
+  <div class="controls">
+    <button class="btn ghost" id="back-cats" type="button">← 所有分類</button>
+    <div class="wallhead"><h2 id="wall-title">作品牆</h2><span id="wall-sub">作品依編號排列</span></div>
+    <div class="chips" id="filters"></div>
+    <label class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+      <input type="search" id="q" placeholder="編號、作者、說明" aria-label="搜尋作品">
+    </label>
+    <select class="sortsel" id="sort" aria-label="排序方式">
+      <option value="no">依編號</option>
+      <option value="new">最新貼上</option>
+      <option value="likes">最多讚</option>
+      <option value="cmts">最多評論</option>
+    </select>
+  </div>
+
+  <div class="visiting" id="visiting" hidden>
+    <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3a16 16 0 0 0 0 18M12 3a16 16 0 0 1 0 18"/></svg></span>
+    <span id="visiting-text"></span>
+    <button class="btn" id="back-home" type="button">回我的班級</button>
+  </div>
+
+  <div class="dropzone" id="dropzone">
+    <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 15V4M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></span>
+    <span><b>把作品檔案直接拖進這個視窗</b>，一次拖幾十個都可以，系統會逐一上傳並自動編號。支援 .html 網頁程式、圖片、影片、音訊。</span>
+    <button class="btn primary" id="btn-add" type="button">＋ 其他方式貼上</button>
+  </div>
+
+  <form class="composer" id="composer" hidden>
+    <div class="comp-head">
+      <h2 id="comp-title">貼上你的作品</h2>
+      <button class="btn ghost" type="button" id="comp-close">取消</button>
+    </div>
+    <div class="comp-body">
+      <div class="field">
+        <span class="lab">作品形式</span>
+        <div class="typegrid" id="typegrid"></div>
+      </div>
+      <div class="two">
+        <div class="field"><span class="lab">作品名稱<span class="lock">只有管理者看得到</span></span><input type="text" id="w-title" maxlength="50" placeholder="例：會下雪的計時器"></div>
+        <div class="field"><span class="lab">標籤（空白分隔，可略）</span><input type="text" id="w-tags" maxlength="60" placeholder="canvas 遊戲 期末"></div>
+      </div>
+      <div class="field" id="f-code" hidden>
+        <span class="lab">貼上 HTML / CSS / JavaScript</span>
+        <textarea id="w-code" spellcheck="false" placeholder="貼上整份程式碼"></textarea>
+        <span class="hint">作品會在隔離的沙箱中執行，同學點開就能直接玩。</span>
+      </div>
+      <div class="field" id="f-file" hidden>
+        <span class="lab">選擇檔案</span>
+        <label class="drop">
+          <input type="file" id="w-file" multiple hidden>
+          <span id="drop-text">點這裡選檔案（可以一次選很多個）</span>
+        </label>
+        <span class="hint" id="file-hint">單檔上限 100 MB。檔名不會公開。</span>
+      </div>
+      <div class="field" id="f-url" hidden>
+        <span class="lab">作品連結</span>
+        <input type="url" id="w-url" placeholder="https://">
+        <span class="hint">同學按「開啟作品」會在新分頁打開。適合 YouTube、Google 簡報、Scratch。</span>
+      </div>
+      <div class="field"><span class="lab">說明（可略，大家都看得到）</span><textarea id="w-desc" maxlength="600" placeholder="怎麼玩、用到哪些技巧？"></textarea></div>
+      <div class="comp-foot">
+        <span class="err" id="comp-err"></span>
+        <button class="btn primary" type="submit" id="comp-submit">貼上作品牆</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="wall" id="wall"></div>
+  </div>
+</main>
+
+<div class="scrim" id="scrim" hidden><div class="sheetwrap" id="sheetwrap"></div></div>
+
+<div class="scrim" id="gate" hidden>
+  <form class="dialog" id="gateform">
+    <h2>你是哪一班？</h2>
+    <div class="gradepick" id="gradepick"></div>
+    <label style="display:grid;gap:6px">
+      <span class="lab">你的名字</span>
+      <input type="text" id="gate-name" maxlength="20" placeholder="王小明" autocomplete="off">
+    </label>
+    <p class="hint" style="margin:0">按讚、留言、貼作品時會顯示名字。之後可以按右上角「更改」。</p>
+    <div class="dlg-foot">
+      <button class="btn ghost" type="button" id="gate-admin" style="margin-right:auto">我是老師</button>
+      <span class="err" id="gate-err"></span>
+      <button class="btn ghost" type="button" id="gate-cancel" hidden>取消</button>
+      <button class="btn primary" type="submit" id="gate-go">進入作品牆</button>
+    </div>
+  </form>
+</div>
+
+<div class="scrim" id="adminscrim" hidden>
+  <form class="dialog" id="adminform">
+    <h2>管理者登入</h2>
+    <p class="hint" style="margin:0">用老師的 Google 帳號開啟就會自動進入管理者模式。用其他帳號時，輸入老師設定的管理者密碼。</p>
+    <input type="password" id="admin-pw" autocomplete="current-password" placeholder="管理者密碼">
+    <div class="dlg-foot">
+      <span class="err" id="admin-err"></span>
+      <button class="btn ghost" type="button" id="admin-cancel">取消</button>
+      <button class="btn primary" type="submit" id="admin-go">登入</button>
+    </div>
+  </form>
+</div>
+
+<div class="scrim" id="catscrim" hidden>
+  <form class="dialog" id="catform">
+    <h2 id="cat-dlg-title">新增分類</h2>
+    <label style="display:grid;gap:6px">
+      <span class="lab">分類名稱</span>
+      <input type="text" id="cat-name" maxlength="30" placeholder="例：中秋節遊戲" autocomplete="off">
+    </label>
+    <label style="display:grid;gap:6px">
+      <span class="lab">說明（選填）</span>
+      <input type="text" id="cat-desc" maxlength="100" placeholder="例：10 月的節慶主題作品">
+    </label>
+    <label style="display:grid;gap:6px">
+      <span class="lab">圖示（一個表情符號）</span>
+      <input type="text" id="cat-icon" maxlength="4" placeholder="🌕" style="width:90px;font-size:20px;text-align:center">
+    </label>
+    <div style="display:grid;gap:8px">
+      <span class="lab">顏色</span>
+      <div class="swatches" id="cat-colors"></div>
+    </div>
+    <div class="dlg-foot">
+      <span class="err" id="cat-err"></span>
+      <button class="btn ghost" type="button" id="cat-cancel">取消</button>
+      <button class="btn primary" type="submit" id="cat-save">儲存</button>
+    </div>
+  </form>
+</div>
+
+<div class="scrim" id="linkscrim" hidden>
+  <form class="dialog" id="linkform">
+    <h2 id="link-dlg-title">新增連結</h2>
+    <p class="hint" style="margin:0">放在首頁最上面，所有人都看得到，點了會在新分頁打開。</p>
+    <label style="display:grid;gap:6px">
+      <span class="lab">名稱</span>
+      <input type="text" id="link-name" maxlength="30" placeholder="例：台灣外送師" autocomplete="off">
+    </label>
+    <label style="display:grid;gap:6px">
+      <span class="lab">網址</span>
+      <input type="url" id="link-url" placeholder="https://">
+    </label>
+    <label style="display:grid;gap:6px">
+      <span class="lab">圖示</span>
+      <input type="text" id="link-icon" maxlength="4" placeholder="🔗" style="width:90px;font-size:20px;text-align:center">
+    </label>
+    <div style="display:grid;gap:8px">
+      <span class="lab">顏色</span>
+      <div class="swatches" id="link-colors"></div>
+    </div>
+    <div class="dlg-foot">
+      <span class="err" id="link-err"></span>
+      <button class="btn ghost" type="button" id="link-del" hidden style="margin-right:auto;color:var(--like)">刪除這個連結</button>
+      <button class="btn ghost" type="button" id="link-cancel">取消</button>
+      <button class="btn primary" type="submit" id="link-save">儲存</button>
+    </div>
+  </form>
+</div>
+
+<div class="scrim" id="delscrim" hidden>
+  <div class="dialog">
+    <h2>刪除分類</h2>
+    <p id="del-msg" style="margin:0;font-size:14px"></p>
+    <div class="catpick" id="del-move" hidden>
+      <span class="lab">把這些作品搬到</span>
+      <select id="del-target"></select>
+    </div>
+    <div class="dlg-foot">
+      <span class="err" id="del-err"></span>
+      <button class="btn ghost" type="button" id="del-cancel">取消</button>
+      <button class="btn" type="button" id="del-archive">改成封存</button>
+      <button class="btn primary" type="button" id="del-go">刪除分類</button>
+    </div>
+  </div>
+</div>
+
+<div class="dragcover" id="dragcover" hidden><div><b id="dc-title">放開就貼上</b><span>每個檔案會自動拿到下一個編號，檔名不會公開</span></div></div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ------------------------------------------------------------------
+   * 網頁放在 GitHub Pages（或任何非 Apps Script 的地方）時，
+   * 把 Apps Script「部署為網頁應用程式」的網址貼在這裡。
+   * 網址長得像 https://script.google.com/macros/s/AKfycb.../exec
+   * 網頁直接放在 Apps Script 裡的話，這行留空即可。
+   * ------------------------------------------------------------------ */
+  var API_URL = "https://script.google.com/macros/s/AKfycby73fGJt2yG9hxnJCz7keXQiXxOgvs636ZjA5W4hYwRoytL6aKRukcum64lmcb5qnCafw/exec";
+
+  var TYPES = {
+    web:   { name: "網頁程式", desc: "貼原始碼，點開直接執行", color: "var(--t-web)",   input: "code" },
+    image: { name: "圖片",     desc: "插畫、海報、截圖",       color: "var(--t-image)", input: "file", accept: "image/*" },
+    video: { name: "影片",     desc: "短片、錄影、動畫",       color: "var(--t-video)", input: "file", accept: "video/*" },
+    audio: { name: "音樂",     desc: "配樂、音效、錄音",       color: "var(--t-audio)", input: "file", accept: "audio/*" },
+    link:  { name: "連結",     desc: "外部網站、雲端作品",     color: "var(--t-link)",  input: "url" }
+  };
+  var ORDER = ["web", "image", "video", "audio", "link"];
+  var AVCOLORS = ["#2B4CF0", "#D9445A", "#128A62", "#6F4BE0", "#C2740F", "#0E7C8B", "#B0356F"];
+  var CHUNK = 3 * 1024 * 1024;      // 每段上傳 3 MB
+  var POLL_MS = 20000;              // 每 20 秒抓一次新資料
+
+  var $ = function (s) { return document.querySelector(s); };
+  var el = function (t, c) { var n = document.createElement(t); if (c) { n.className = c; } return n; };
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function hash(s) { var h = 0, i; for (i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) | 0; } return Math.abs(h); }
+  function avColor(seed) { return AVCOLORS[hash(String(seed)) % AVCOLORS.length]; }
+  function initial(n) { return (String(n || "?").trim().charAt(0) || "?").toUpperCase(); }
+  function ago(ms) {
+    if (!(ms > 0)) { return ""; }
+    var d = Date.now() - ms;
+    if (d < 60000) { return "剛剛"; }
+    if (d < 3600000) { return Math.floor(d / 60000) + " 分鐘前"; }
+    if (d < 86400000) { return Math.floor(d / 3600000) + " 小時前"; }
+    if (d < 2592000000) { return Math.floor(d / 86400000) + " 天前"; }
+    var dt = new Date(ms);
+    return (dt.getMonth() + 1) + "/" + dt.getDate();
+  }
+  function thumbUrl(id, w) { return "https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w" + w; }
+  function playerUrl(id) { return "https://drive.google.com/file/d/" + encodeURIComponent(id) + "/preview"; }
+
+  /**
+   * 呼叫伺服器。網頁放在 Apps Script 時走 google.script.run，
+   * 放在 GitHub Pages 等地方時改用 fetch 呼叫上面的 API_URL。
+   */
+  var ctx = { anon: "", token: "" };
+  var inAppsScript = !!(window.google && window.google.script && window.google.script.run);
+
+  function api(name) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    if (inAppsScript) {
+      return new Promise(function (res, rej) {
+        google.script.run.withSuccessHandler(res).withFailureHandler(function (e) {
+          rej(new Error((e && e.message) ? e.message : "伺服器沒有回應"));
+        })[name].apply(null, [ctx].concat(args));
+      });
+    }
+    if (!API_URL) {
+      return Promise.reject(new Error("這份網頁還沒填 API_URL，請看 Index.html 最上面的說明"));
+    }
+    return fetch(API_URL, {
+      method: "POST",
+      // text/plain 才不會觸發 CORS 預檢，Apps Script 不接受預檢
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ fn: name, ctx: ctx, args: args })
+    }).then(function (r) {
+      if (!r.ok) { throw new Error("伺服器回應 " + r.status); }
+      return r.json();
+    }).then(function (j) {
+      if (!j.ok) { throw new Error(j.error || "伺服器出錯"); }
+      return j.result;
+    });
+  }
+
+  var toastTimer;
+  function toast(msg, sticky) {
+    var t = $("#toast");
+    t.textContent = msg; t.hidden = false;
+    clearTimeout(toastTimer);
+    if (!sticky) { toastTimer = setTimeout(function () { t.hidden = true; }, 3000); }
+  }
+  var LOCK_SVG = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+
+  /* ================= 身分 ================= */
+  try {
+    ctx.anon = localStorage.getItem("wall.anon") || "";
+    if (!ctx.anon) {
+      ctx.anon = "a" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+      localStorage.setItem("wall.anon", ctx.anon);
+    }
+    ctx.token = localStorage.getItem("wall.admin") || "";
+  } catch (e) {
+    ctx.anon = "a" + Math.random().toString(36).slice(2, 12);
+  }
+
+  var me = { owner: "", name: "", cls: "", isAdmin: false, classes: ["501", "502", "503", "504", "601", "602", "603", "604"] };
+  var view = "";
+  var state = { works: [], comments: [], filter: "all", sort: "no", q: "" };
+  var openId = null, busy = false;
+  var lastSig = "", lastIds = "", lastAdmin = null, cardIndex = {};
+  var links = [];       // 老師放在首頁的連結
+  var cats = [];        // 老師建立的分類
+  var curCat = null;    // 目前進去的分類，null 表示在分類首頁
+  var NO_CAT = "none";
+
+  function cmtsOf(id) {
+    return state.comments.filter(function (c) { return c.workId === id; })
+      .sort(function (a, b) { return a.at - b.at; });
+  }
+  function workById(id) {
+    for (var i = 0; i < state.works.length; i++) { if (state.works[i].id === id) { return state.works[i]; } }
+    return null;
+  }
+
+  function paintMe() {
+    $("#me-chip").hidden = !me.name;
+    if (me.name) {
+      $("#me-name").textContent = me.name + (me.cls ? " · " + me.cls + " 班" : "");
+      var av = $("#me-av");
+      av.textContent = initial(me.name);
+      av.style.background = avColor(me.owner || me.name);
+    }
+    paintVisiting();
+    $("#adminbar").hidden = !me.isAdmin;
+    $("#btn-admin").classList.toggle("on", !!me.isAdmin);
+    $("#btn-admin-t").textContent = me.isAdmin ? "管理者模式" : "管理者";
+    buildClassbar();
+  }
+
+  /* ================= 作品分類 ================= */
+
+  var CAT_COLORS = ["#2B4CF0", "#D9445A", "#128A62", "#6F4BE0", "#C2740F", "#0E7C8B", "#B0356F", "#4A5268"];
+
+  function catById(id) {
+    for (var i = 0; i < cats.length; i++) { if (cats[i].id === id) { return cats[i]; } }
+    return null;
+  }
+
+  function paintRoute() {
+    var home = !curCat;
+    $("#home").hidden = !home;
+    $("#wallview").hidden = home;
+    $("#classbar").style.display = home ? "none" : "";
+    document.querySelector(".counts").style.display = home ? "none" : "";
+    $("#cat-add").hidden = !me.isAdmin;
+    $("#links-head").hidden = home ? !(links.length || me.isAdmin) : true;
+    $("#links").hidden = !home || !links.length;
+    if (!home) {
+      $("#wall-title").textContent = curCat.name;
+      $("#wall-sub").textContent = view + " 班 · " +
+        { no: "依編號排列", "new": "最新貼上的在前", likes: "讚最多的在前", cmts: "評論最多的在前" }[state.sort];
+    }
+  }
+
+  /* ---- 老師的連結 ---- */
+  function loadLinks() {
+    return api("listLinks").then(function (r) {
+      links = r.links || [];
+      renderLinks();
+    }).catch(function () { /* 連結讀不到就先不顯示 */ });
+  }
+
+  function renderLinks() {
+    var box = $("#links");
+    box.textContent = "";
+    var show = links.length || me.isAdmin;
+    $("#links-head").hidden = !show || !!curCat;
+    box.hidden = !show || !!curCat || !links.length;
+    $("#link-add").hidden = !me.isAdmin;
+    links.forEach(function (l) {
+      var a = el("a", "lk");
+      a.href = l.url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.style.setProperty("--lk", l.color);
+      var emo = el("span", "emo"); emo.textContent = l.icon || "🔗"; a.appendChild(emo);
+      var txt = el("span");
+      var b = el("b"); b.textContent = l.name; txt.appendChild(b);
+      var host = el("span", "host");
+      try { host.textContent = new URL(l.url).hostname.replace(/^www\./, ""); } catch (e) { host.textContent = ""; }
+      txt.appendChild(host);
+      a.appendChild(txt);
+      var go = el("span", "go"); go.textContent = "開啟 ↗"; a.appendChild(go);
+      if (me.isAdmin) {
+        var tools = el("div", "tools");
+        var ed = el("button"); ed.type = "button"; ed.textContent = "編輯";
+        ed.addEventListener("click", function (ev) { ev.preventDefault(); ev.stopPropagation(); openLinkDialog(l); });
+        tools.appendChild(ed);
+        a.appendChild(tools);
+      }
+      box.appendChild(a);
+    });
+  }
+
+  var linkEditing = null, linkColor = "#2B4CF0";
+  function pickLinkColor(col) {
+    linkColor = col;
+    Array.prototype.forEach.call($("#link-colors").children, function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.c === col));
+    });
+  }
+  function openLinkDialog(l) {
+    linkEditing = l || null;
+    $("#link-dlg-title").textContent = l ? "編輯連結" : "新增連結";
+    $("#link-name").value = l ? l.name : "";
+    $("#link-url").value = l ? l.url : "";
+    $("#link-icon").value = l ? l.icon : "🔗";
+    $("#link-del").hidden = !l;
+    pickLinkColor(l ? l.color : "#2B4CF0");
+    $("#link-err").textContent = "";
+    $("#linkscrim").hidden = false;
+    setTimeout(function () { $("#link-name").focus(); }, 30);
+  }
+  $("#link-add").addEventListener("click", function () { openLinkDialog(null); });
+  $("#link-cancel").addEventListener("click", function () { $("#linkscrim").hidden = true; });
+  $("#link-del").addEventListener("click", function () {
+    if (!linkEditing) { return; }
+    if (!window.confirm("刪除「" + linkEditing.name + "」這個連結？")) { return; }
+    api("deleteLink", linkEditing.id).then(function () {
+      $("#linkscrim").hidden = true;
+      toast("連結已刪除");
+      return loadLinks();
+    }).catch(function (err) { $("#link-err").textContent = err.message; });
+  });
+  $("#linkform").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var btn = $("#link-save");
+    btn.disabled = true; btn.textContent = "儲存中…";
+    api("saveLink", linkEditing ? linkEditing.id : "", $("#link-name").value,
+      $("#link-url").value, $("#link-icon").value, linkColor)
+      .then(function () {
+        $("#linkscrim").hidden = true;
+        toast(linkEditing ? "連結已更新" : "已新增連結");
+        return loadLinks();
+      }).catch(function (err) { $("#link-err").textContent = err.message; })
+      .then(function () { btn.disabled = false; btn.textContent = "儲存"; });
+  });
+
+  function loadCats() {
+    return api("listCats").then(function (r) {
+      cats = r.cats;
+      if (r.isAdmin !== me.isAdmin) { me.isAdmin = r.isAdmin; paintMe(); }
+      renderCats();
+      renderLinks();
+      paintRoute();
+      return loadLinks();
+    }).catch(function (err) {
+      $("#offline").textContent = "讀不到分類：" + err.message;
+      $("#offline").hidden = false;
+    });
+  }
+
+  function renderCats() {
+    var box = $("#cats");
+    box.textContent = "";
+    if (!cats.length) {
+      var e = el("div", "empty");
+      var h = el("h3"); h.textContent = me.isAdmin ? "還沒有任何分類" : "老師還沒開放分類";
+      var p = el("p"); p.style.margin = "0";
+      p.textContent = me.isAdmin ? "按右上角「＋ 新增分類」建立第一個，例如「中秋節遊戲」。" : "等老師建立分類後，這裡就會出現。";
+      e.appendChild(h); e.appendChild(p);
+      e.style.gridColumn = "1/-1";
+      box.appendChild(e);
+      return;
+    }
+    cats.forEach(function (c, idx) {
+      var card = el("button", "cat");
+      card.type = "button";
+      card.style.setProperty("--cat", c.color);
+      card.dataset.id = c.id;
+      card.setAttribute("aria-label", "進入分類：" + c.name);
+
+      var emo = el("div", "emo"); emo.textContent = c.icon || "📁"; card.appendChild(emo);
+      var h3 = el("h3");
+      h3.textContent = c.name;
+      if (c.archived) { var f = el("span", "flag"); f.textContent = "已封存"; h3.appendChild(f); }
+      card.appendChild(h3);
+      var cd = el("div", "cd"); cd.textContent = c.desc || ""; card.appendChild(cd);
+      var cn = el("div", "cn");
+      cn.innerHTML = "共 <b>" + c.count + "</b> 件" + (me.cls ? "　" + me.cls + " 班 <b>" + c.countCls + "</b> 件" : "");
+      card.appendChild(cn);
+      card.addEventListener("click", function () { enterCat(c); });
+
+      if (me.isAdmin && !c.fixed) {
+        var tools = el("div", "tools");
+        var ed = el("button"); ed.type = "button"; ed.textContent = "編輯";
+        ed.addEventListener("click", function (ev) { ev.stopPropagation(); openCatDialog(c); });
+        var rm = el("button"); rm.type = "button"; rm.textContent = "刪除"; rm.style.color = "var(--like)";
+        rm.addEventListener("click", function (ev) { ev.stopPropagation(); openDeleteDialog(c); });
+        tools.appendChild(ed); tools.appendChild(rm);
+        card.appendChild(tools);
+
+        var grip = el("span", "grip");
+        grip.title = "拖曳可以調整順序";
+        card.appendChild(grip);
+        card.draggable = true;
+        card.addEventListener("dragstart", function (ev) {
+          ev.dataTransfer.effectAllowed = "move";
+          ev.dataTransfer.setData("text/cat", c.id);
+          card.classList.add("dragging");
+        });
+        card.addEventListener("dragend", function () { card.classList.remove("dragging"); });
+        card.addEventListener("dragover", function (ev) {
+          if (ev.dataTransfer.types.indexOf("text/cat") < 0) { return; }
+          ev.preventDefault(); card.classList.add("over");
+        });
+        card.addEventListener("dragleave", function () { card.classList.remove("over"); });
+        card.addEventListener("drop", function (ev) {
+          if (ev.dataTransfer.types.indexOf("text/cat") < 0) { return; }
+          ev.preventDefault(); ev.stopPropagation();
+          card.classList.remove("over");
+          moveCat(ev.dataTransfer.getData("text/cat"), idx);
+        });
+      }
+      box.appendChild(card);
+    });
+  }
+
+  /** 老師拖曳分類卡片後，把新順序存回伺服器 */
+  function moveCat(dragId, toIdx) {
+    var from = -1;
+    cats.forEach(function (c, i) { if (c.id === dragId) { from = i; } });
+    if (from < 0 || from === toIdx) { return; }
+    var moved = cats.splice(from, 1)[0];
+    cats.splice(toIdx, 0, moved);
+    renderCats();
+    var ids = cats.filter(function (c) { return !c.fixed; }).map(function (c) { return c.id; });
+    api("reorderCats", ids).then(loadCats).catch(function (err) { toast(err.message); loadCats(); });
+  }
+
+  function enterCat(c) {
+    curCat = c;
+    lastSig = ""; lastIds = ""; cardIndex = {};
+    state.works = []; state.comments = [];
+    paintRoute();
+    renderWall();
+    reload();
+  }
+  function goHome() {
+    if (openId) { closeSheet(); }
+    curCat = null;
+    $("#composer").hidden = true;
+    paintRoute();
+    loadCats();
+  }
+  $("#back-cats").addEventListener("click", goHome);
+
+  /* ---- 新增／編輯分類（只有老師看得到入口，伺服器也會再擋一次） ---- */
+  var catEditing = null, catColor = CAT_COLORS[0];
+  (function buildSwatches() {
+    [["#cat-colors", function (c) { pickColor(c); }], ["#link-colors", function (c) { pickLinkColor(c); }]]
+      .forEach(function (pair) {
+        var box = $(pair[0]);
+        CAT_COLORS.forEach(function (col) {
+          var b = el("button", "swatch");
+          b.type = "button";
+          b.style.background = col;
+          b.dataset.c = col;
+          b.setAttribute("aria-label", "選這個顏色");
+          b.addEventListener("click", function () { pair[1](col); });
+          box.appendChild(b);
+        });
+      });
+  }());
+  function pickColor(col) {
+    catColor = col;
+    Array.prototype.forEach.call($("#cat-colors").children, function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.c === col));
+    });
+  }
+  function openCatDialog(c) {
+    catEditing = c || null;
+    $("#cat-dlg-title").textContent = c ? "編輯分類" : "新增分類";
+    $("#cat-name").value = c ? c.name : "";
+    $("#cat-desc").value = c ? c.desc : "";
+    $("#cat-icon").value = c ? c.icon : "📁";
+    pickColor(c ? c.color : CAT_COLORS[0]);
+    $("#cat-err").textContent = "";
+    $("#catscrim").hidden = false;
+    setTimeout(function () { $("#cat-name").focus(); }, 30);
+  }
+  $("#cat-add").addEventListener("click", function () { openCatDialog(null); });
+  $("#cat-cancel").addEventListener("click", function () { $("#catscrim").hidden = true; });
+  $("#catform").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = $("#cat-name").value.trim();
+    if (!name) { $("#cat-err").textContent = "請填分類名稱。"; return; }
+    var btn = $("#cat-save");
+    btn.disabled = true; btn.textContent = "儲存中…";
+    var desc = $("#cat-desc").value.trim();
+    var icon = $("#cat-icon").value.trim() || "📁";
+    var job = catEditing
+      ? api("updateCat", catEditing.id, name, desc, icon, catColor, catEditing.archived)
+      : api("addCat", name, desc, icon, catColor);
+    job.then(function () {
+      $("#catscrim").hidden = true;
+      toast(catEditing ? "分類已更新" : "已新增分類");
+      return loadCats();
+    }).catch(function (err) { $("#cat-err").textContent = err.message; })
+      .then(function () { btn.disabled = false; btn.textContent = "儲存"; });
+  });
+
+  /* ---- 刪除分類：先問清楚，作品一律保留 ---- */
+  var catDeleting = null;
+  function openDeleteDialog(c) {
+    catDeleting = c;
+    var sel = $("#del-target");
+    sel.textContent = "";
+    cats.forEach(function (x) {
+      if (x.id === c.id) { return; }
+      var o = el("option");
+      o.value = x.id;
+      o.textContent = (x.icon || "") + " " + x.name;
+      sel.appendChild(o);
+    });
+    if (!sel.options.length) {
+      var o2 = el("option"); o2.value = NO_CAT; o2.textContent = "🗂 未分類作品"; sel.appendChild(o2);
+    }
+    var has = c.count > 0;
+    $("#del-move").hidden = !has;
+    $("#del-msg").textContent = has
+      ? "「" + c.name + "」裡面有 " + c.count + " 件學生作品。作品不會被刪掉，請選一個處理方式。"
+      : "「" + c.name + "」目前沒有作品，確定要刪除嗎？";
+    $("#del-go").textContent = has ? "搬走作品並刪除分類" : "刪除分類";
+    $("#del-err").textContent = "";
+    $("#delscrim").hidden = false;
+  }
+  $("#del-cancel").addEventListener("click", function () { $("#delscrim").hidden = true; });
+  $("#del-archive").addEventListener("click", function () { runDelete("archive"); });
+  $("#del-go").addEventListener("click", function () {
+    runDelete(catDeleting && catDeleting.count > 0 ? "move" : "empty");
+  });
+  function runDelete(mode) {
+    if (!catDeleting) { return; }
+    var target = mode === "move" ? $("#del-target").value : "";
+    api("deleteCat", catDeleting.id, mode, target).then(function () {
+      $("#delscrim").hidden = true;
+      toast(mode === "archive" ? "分類已封存，學生看不到了" : "分類已刪除，作品都保留著");
+      return loadCats();
+    }).catch(function (err) { $("#del-err").textContent = err.message; });
+  }
+
+  /** 看自己班以外的作品時，說明可以做什麼、不能做什麼 */
+  function paintVisiting() {
+    var away = !!(me.cls && view && view !== me.cls);
+    $("#visiting").hidden = !away;
+    $("#dropzone").hidden = away;
+    if (away) {
+      $("#visiting-text").textContent = "你正在逛 " + view + " 班的作品。可以點開來玩、按讚、留言；" +
+        "刪除只限自己的作品，貼新作品會回到你的 " + me.cls + " 班。";
+    }
+  }
+  $("#back-home").addEventListener("click", function () { if (me.cls) { setView(me.cls); } });
+
+  /* ================= 班級 ================= */
+  function buildClassbar() {
+    var bar = $("#classbar");
+    bar.textContent = "";
+    [["五年級", me.classes.slice(0, 4)], ["六年級", me.classes.slice(4)]].forEach(function (pair) {
+      var grp = el("div", "grade");
+      grp.setAttribute("role", "group");
+      grp.setAttribute("aria-label", pair[0]);
+      pair[1].forEach(function (c) {
+        var b = el("button");
+        b.type = "button";
+        b.textContent = c;
+        b.setAttribute("aria-pressed", String(c === view));
+        if (c === me.cls) { var dot = el("span", "mine"); dot.title = "你的班級"; b.appendChild(dot); }
+        b.addEventListener("click", function () { setView(c); });
+        grp.appendChild(b);
+      });
+      bar.appendChild(grp);
+    });
+  }
+
+  var gatePick = "";
+  var gatePending = null;
+  function buildGate() {
+    var gp = $("#gradepick");
+    gp.textContent = "";
+    [["五年級", me.classes.slice(0, 4)], ["六年級", me.classes.slice(4)]].forEach(function (pair) {
+      var row = el("div", "row");
+      var lab = el("span"); lab.textContent = pair[0]; row.appendChild(lab);
+      pair[1].forEach(function (c) {
+        var b = el("button", "clsbtn");
+        b.type = "button"; b.textContent = c; b.dataset.c = c;
+        b.setAttribute("aria-pressed", String(c === gatePick));
+        b.addEventListener("click", function () { pickGate(c); });
+        row.appendChild(b);
+      });
+      gp.appendChild(row);
+    });
+  }
+  function pickGate(c) {
+    gatePick = c;
+    Array.prototype.forEach.call(document.querySelectorAll(".clsbtn"), function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.c === c));
+    });
+  }
+  function openGate(cancellable) {
+    gatePick = me.cls;
+    buildGate();
+    $("#gate-name").value = me.name;
+    $("#gate-err").textContent = "";
+    $("#gate-cancel").hidden = !cancellable;
+    $("#gate").hidden = false;
+    return new Promise(function (res) { gatePending = res; });
+  }
+  function closeGate(ok) {
+    $("#gate").hidden = true;
+    var p = gatePending; gatePending = null;
+    if (p) { p(!!ok); }
+  }
+  $("#gateform").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var n = $("#gate-name").value.trim();
+    if (!gatePick) { $("#gate-err").textContent = "先點選你的班級。"; return; }
+    if (!n) { $("#gate-err").textContent = "寫上你的名字。"; return; }
+    var go = $("#gate-go");
+    go.disabled = true; go.textContent = "儲存中…";
+    api("saveProfile", n, gatePick).then(function (info) {
+      me = info;
+      view = me.cls;
+      paintMe();
+      buildClassbar();
+      closeGate(true);
+      return loadCats();
+    }).catch(function (err) {
+      $("#gate-err").textContent = err.message;
+    }).then(function () {
+      go.disabled = false; go.textContent = "進入作品牆";
+    });
+  });
+  $("#gate-cancel").addEventListener("click", function () { closeGate(false); });
+  $("#me-edit").addEventListener("click", function () { openGate(true); });
+  function ensureMe() {
+    if (me.name && me.cls) { return Promise.resolve(true); }
+    return openGate(true);
+  }
+
+  /* ================= 管理者 ================= */
+  function openAdmin() {
+    $("#admin-pw").value = ""; $("#admin-err").textContent = "";
+    $("#adminscrim").hidden = false;
+    setTimeout(function () { $("#admin-pw").focus(); }, 30);
+  }
+  $("#gate-admin").addEventListener("click", openAdmin);
+
+  $("#btn-admin").addEventListener("click", function () {
+    if (me.isAdmin) {
+      ctx.token = "";
+      try { localStorage.removeItem("wall.admin"); } catch (e) { /* ignore */ }
+      me.isAdmin = false;
+      paintMe();
+      renderLinks();
+      paintRoute();
+      reload().then(function () { toast("已登出管理者"); });
+      return;
+    }
+    openAdmin();
+  });
+  $("#admin-cancel").addEventListener("click", function () { $("#adminscrim").hidden = true; });
+  $("#adminform").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var go = $("#admin-go");
+    go.disabled = true; go.textContent = "確認中…";
+    api("adminLogin", $("#admin-pw").value).then(function (token) {
+      ctx.token = token;
+      try { localStorage.setItem("wall.admin", token); } catch (e) { /* ignore */ }
+      $("#adminscrim").hidden = true;
+      me.isAdmin = true;
+      paintMe();
+      renderLinks();
+      paintRoute();
+      if (!$("#gate").hidden) { closeGate(false); }   // 老師不必選班級就能看
+      return reload();
+    }).then(function () { toast("已進入管理者模式"); })
+      .catch(function (err) { $("#admin-err").textContent = err.message; })
+      .then(function () { go.disabled = false; go.textContent = "登入"; });
+  });
+
+  /* ================= 篩選排序 ================= */
+  var filters = $("#filters");
+  (function buildFilters() {
+    var defs = [{ k: "all", n: "全部" }].concat(ORDER.map(function (k) {
+      return { k: k, n: TYPES[k].name, c: TYPES[k].color };
+    }));
+    defs.forEach(function (d) {
+      var b = el("button", "chip");
+      b.type = "button";
+      b.setAttribute("aria-pressed", String(state.filter === d.k));
+      b.dataset.k = d.k;
+      if (d.c) { var dot = el("span", "dot"); dot.style.background = d.c; b.appendChild(dot); }
+      b.appendChild(document.createTextNode(d.n));
+      b.addEventListener("click", function () {
+        state.filter = d.k;
+        Array.prototype.forEach.call(filters.children, function (c) {
+          c.setAttribute("aria-pressed", String(c.dataset.k === d.k));
+        });
+        renderWall();
+      });
+      filters.appendChild(b);
+    });
+  }());
+  $("#q").addEventListener("input", function (e) { state.q = e.target.value.trim().toLowerCase().replace(/^#/, ""); renderWall(); });
+  $("#sort").addEventListener("change", function (e) {
+    state.sort = e.target.value;
+    paintRoute();
+    renderWall();
+  });
+
+  /* ================= 預覽 ================= */
+  var codeCache = {};
+  function getCode(w) {
+    if (!codeCache[w.id]) {
+      codeCache[w.id] = api("getCode", w.fileId);
+      codeCache[w.id].catch(function () { delete codeCache[w.id]; });
+    }
+    return codeCache[w.id];
+  }
+  /* 學生的程式跑在沒有網域的沙箱裡，一碰 localStorage 或 cookie 就會丟出
+     SecurityError。很多遊戲在存分數時踩到這個，畫面就停住不動（看起來像當機）。
+     這裡先放一份替代品進去，另外把錯誤顯示在畫面下方，而不是靜悄悄地死掉。 */
+  var SANDBOX_SHIM = [
+    '<scr' + 'ipt>(function(){',
+    'function store(){var m={};return{',
+    'getItem:function(k){k=String(k);return Object.prototype.hasOwnProperty.call(m,k)?m[k]:null;},',
+    'setItem:function(k,v){m[String(k)]=String(v);},',
+    'removeItem:function(k){delete m[String(k)];},',
+    'clear:function(){m={};},',
+    'key:function(i){var a=Object.keys(m);return i<a.length?a[i]:null;},',
+    'get length(){return Object.keys(m).length;}};}',
+    'function fix(n){try{window[n].getItem("_probe");}catch(e){',
+    'try{Object.defineProperty(window,n,{value:store(),configurable:true});}catch(e2){}}}',
+    'fix("localStorage");fix("sessionStorage");',
+    'try{var _c=document.cookie;}catch(e){try{var c="";',
+    'Object.defineProperty(document,"cookie",{get:function(){return c;},set:function(v){c=v;},configurable:true});}catch(e2){}}',
+    'window.addEventListener("error",function(ev){',
+    'var d=document.getElementById("__wallerr");',
+    'if(!d){d=document.createElement("div");d.id="__wallerr";',
+    'd.style.cssText="position:fixed;left:0;right:0;bottom:0;z-index:2147483647;background:#B3261E;color:#fff;font:13px/1.5 system-ui,sans-serif;padding:8px 12px";',
+    'if(document.body){document.body.appendChild(d);}}',
+    'if(d){d.textContent="這個作品發生錯誤："+(ev.message||"")+"（第 "+(ev.lineno||0)+" 行）";}});',
+    '})();<' + '/scr' + 'ipt>'
+  ].join("");
+
+  /** 把補丁插進學生程式的最前面（有 <head> 就插在它後面，保持 doctype 正常） */
+  function withShim(code) {
+    var m = /<head[^>]*>/i.exec(code) || /<html[^>]*>/i.exec(code);
+    if (m) {
+      var at = m.index + m[0].length;
+      return code.slice(0, at) + SANDBOX_SHIM + code.slice(at);
+    }
+    return SANDBOX_SHIM + code;
+  }
+
+  function sandboxFrame(w, live) {
+    var f = el("iframe");
+    f.setAttribute("sandbox", "allow-scripts allow-modals allow-popups allow-forms allow-pointer-lock");
+    f.setAttribute("referrerpolicy", "no-referrer");
+    f.setAttribute("allowfullscreen", "");
+    f.allow = "fullscreen";
+    f.title = "作品 #" + w.no + "（在沙箱中執行）";
+    if (live) { f.className = "live"; } else { f.setAttribute("tabindex", "-1"); }
+    getCode(w).then(function (code) { f.srcdoc = withShim(code); }).catch(function () {
+      f.srcdoc = "<p style='font:14px system-ui;color:#888;padding:20px'>作品載入失敗，請重新整理。</p>";
+    });
+    return f;
+  }
+  /* 一面牆上如果同時跑十幾個遊戲，電腦會被吃垮。
+     所以卡片預覽最多同時 4 個，而且打開某件作品來玩的時候，其他全部停下來。 */
+  var MAX_PREVIEWS = 4;
+  var previewsPaused = false;
+  var frameHosts = [];   // 卡片上放預覽的容器
+  var mounted = [];      // 目前真的在跑的容器，照啟動順序排
+
+  function stopPreview(host) {
+    host.textContent = "";
+    var i = mounted.indexOf(host);
+    if (i >= 0) { mounted.splice(i, 1); }
+  }
+  function mountPreview(host) {
+    if (previewsPaused || host.firstChild) { return; }
+    var w = workById(host.dataset.id);
+    if (!w) { return; }
+    while (mounted.length >= MAX_PREVIEWS) { stopPreview(mounted[0]); }
+    host.appendChild(sandboxFrame(w, false));
+    mounted.push(host);
+  }
+  function pausePreviews() {
+    previewsPaused = true;
+    mounted.slice().forEach(stopPreview);
+  }
+  function resumePreviews() {
+    previewsPaused = false;
+    if (!io) { return; }
+    frameHosts.forEach(function (h) { if (!h.firstChild) { io.observe(h); } });
+  }
+
+  var io = ("IntersectionObserver" in window) ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) { return; }
+      io.unobserve(en.target);
+      mountPreview(en.target);
+    });
+  }, { rootMargin: "200px" }) : null;
+
+  function glyph(w) {
+    var g = el("div", "glyph");
+    var big = el("span", "big mono");
+    big.textContent = w.type === "audio" ? "♪ 音訊作品" : w.type === "link" ? "↗ 外部連結" : TYPES[w.type].name;
+    g.appendChild(big);
+    if (w.type === "link" && w.url) {
+      var d = el("span"); d.style.fontSize = "12px";
+      try { d.textContent = new URL(w.url).hostname.replace(/^www\./, ""); } catch (e) { d.textContent = ""; }
+      g.appendChild(d);
+    }
+    return g;
+  }
+  function cardPreview(w) {
+    var box = el("div", "prev");
+    if ((w.type === "image" || w.type === "video") && w.fileId) {
+      var img = el("img");
+      img.alt = "作品 #" + w.no;
+      img.loading = "lazy";
+      img.referrerPolicy = "no-referrer";
+      img.src = thumbUrl(w.fileId, 800);
+      img.addEventListener("error", function () { box.textContent = ""; box.appendChild(glyph(w)); });
+      box.appendChild(img);
+      if (w.type === "video") { var tag = el("span", "runtag"); tag.textContent = "▶ 播放"; box.appendChild(tag); }
+    } else if (w.type === "web" && w.fileId) {
+      var fr = el("div", "frame");
+      fr.dataset.id = w.id;
+      frameHosts.push(fr);
+      if (io) { io.observe(fr); } else { mountPreview(fr); }
+      box.appendChild(fr);
+      var t2 = el("span", "runtag"); t2.textContent = "▶ 點開直接玩"; box.appendChild(t2);
+    } else {
+      box.appendChild(glyph(w));
+    }
+    return box;
+  }
+
+  /* ================= 作品牆 ================= */
+  function visibleWorks() {
+    var out = state.works.filter(function (w) {
+      if (state.filter !== "all" && w.type !== state.filter) { return false; }
+      if (!state.q) { return true; }
+      if (String(w.no) === state.q) { return true; }
+      var hay = (w.author + " " + (w.tags || []).join(" ") + " " + (w.desc || "") + " " + (w.title || "")).toLowerCase();
+      return hay.indexOf(state.q) >= 0;
+    });
+    out.sort(function (a, b) {
+      if (state.sort === "likes") { return b.likes - a.likes || a.no - b.no; }
+      if (state.sort === "cmts") { return cmtsOf(b.id).length - cmtsOf(a.id).length || a.no - b.no; }
+      if (state.sort === "new") { return b.at - a.at; }
+      return a.no - b.no;
+    });
+    return out;
+  }
+  function heartSvg(filled) {
+    return '<svg width="15" height="15" viewBox="0 0 24 24" fill="' + (filled ? "currentColor" : "none") +
+      '" stroke="currentColor" stroke-width="2"><path d="M12 20.5S3.5 15 3.5 8.9A4.4 4.4 0 0 1 12 6.8a4.4 4.4 0 0 1 8.5 2.1C20.5 15 12 20.5 12 20.5z"/></svg>';
+  }
+  function cmtSvg() {
+    return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
+      '<path d="M20 15.5a2.5 2.5 0 0 1-2.5 2.5H8l-4 3.5v-15A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5z"/></svg>';
+  }
+  function numberEl(w) {
+    var n = el("div", "no");
+    n.innerHTML = "<small>#</small>" + esc(w.no);
+    return n;
+  }
+  function kindEl(w) {
+    var t = TYPES[w.type] || TYPES.link;
+    var kind = el("div", "kind");
+    kind.style.color = t.color;
+    var kd = el("span", "dot"); kd.style.background = t.color;
+    kind.appendChild(kd);
+    kind.appendChild(document.createTextNode(t.name));
+    return kind;
+  }
+  function secretEl(w) {
+    var s = el("div", "secret");
+    s.innerHTML = LOCK_SVG;
+    var tt = el("span");
+    tt.textContent = w.title || "（沒有作品名稱）";
+    s.appendChild(tt);
+    return s;
+  }
+  function canDelete(w) { return me.isAdmin || w.mineWork; }
+
+  function renderWall() {
+    var wall = $("#wall");
+    var list = visibleWorks();
+    var ids = list.map(function (w) { return w.id; }).join("|");
+
+    $("#c-works").textContent = state.works.length;
+    $("#c-likes").textContent = state.works.reduce(function (s, w) { return s + w.likes; }, 0);
+    $("#c-cmts").textContent = state.comments.length;
+
+    /* 同一批作品、同樣的順序：只改讚數和評論數，不重建卡片，
+       免得畫面閃一下、網頁程式的預覽重跑一次 */
+    if (ids && ids === lastIds && lastAdmin === me.isAdmin && wall.firstChild) {
+      list.forEach(function (w) {
+        var rec = cardIndex[w.id];
+        if (!rec) { return; }
+        rec.like.className = "act" + (w.liked ? " liked" : "");
+        rec.like.innerHTML = heartSvg(w.liked) + '<span class="n">' + w.likes + "</span>";
+        rec.cmt.innerHTML = cmtSvg() + '<span class="n">' + cmtsOf(w.id).length + "</span>";
+      });
+      return;
+    }
+    lastIds = ids;
+    lastAdmin = me.isAdmin;
+    cardIndex = {};
+    frameHosts = []; mounted = [];
+    wall.textContent = "";
+    wall.classList.toggle("is-empty", !list.length);
+
+    if (!list.length) {
+      var e = el("div", "empty");
+      var h = el("h3"), p = el("p");
+      p.style.margin = "0";
+      if (state.works.length) {
+        h.textContent = "沒有符合的作品";
+        p.textContent = "換個關鍵字或篩選條件試試。";
+      } else {
+        h.textContent = view + " 班的牆上還空著";
+        p.textContent = view === me.cls ? "把作品檔案拖進視窗，你就是 #1。" : "這個班還沒有人貼作品。";
+      }
+      e.appendChild(h); e.appendChild(p);
+      wall.appendChild(e);
+      return;
+    }
+
+    list.forEach(function (w) {
+      var card = el("article", "card");
+      var open = el("button", "card-open");
+      open.type = "button";
+      open.setAttribute("aria-label", "打開作品 #" + w.no);
+      open.appendChild(cardPreview(w));
+
+      var body = el("div", "card-body");
+      var top = el("div", "card-top");
+      top.appendChild(numberEl(w));
+      top.appendChild(kindEl(w));
+      body.appendChild(top);
+      if (me.isAdmin) { body.appendChild(secretEl(w)); }
+
+      var by = el("div", "byline");
+      var av = el("span", "av");
+      av.style.cssText = "width:18px;height:18px;font-size:9px;background:" + avColor(w.avatar || w.author);
+      av.textContent = initial(w.author);
+      by.appendChild(av);
+      by.appendChild(document.createTextNode(w.author + " · " + ago(w.at)));
+      body.appendChild(by);
+
+      if (w.tags && w.tags.length) {
+        var tg = el("div", "tags");
+        w.tags.slice(0, 4).forEach(function (x) { var s = el("span", "tag"); s.textContent = "#" + x; tg.appendChild(s); });
+        body.appendChild(tg);
+      }
+      open.appendChild(body);
+      open.addEventListener("click", function () { openWork(w.id); });
+      card.appendChild(open);
+
+      var foot = el("div", "card-foot");
+      var lb = el("button", "act" + (w.liked ? " liked" : ""));
+      lb.type = "button";
+      lb.innerHTML = heartSvg(w.liked) + '<span class="n">' + w.likes + "</span>";
+      lb.setAttribute("aria-label", (w.liked ? "取消讚" : "給讚") + "：作品 #" + w.no);
+      lb.addEventListener("click", function () { toggleLike(w); });
+      foot.appendChild(lb);
+
+      var cb = el("button", "act");
+      cb.type = "button";
+      cb.innerHTML = cmtSvg() + '<span class="n">' + cmtsOf(w.id).length + "</span>";
+      cb.addEventListener("click", function () { openWork(w.id, true); });
+      foot.appendChild(cb);
+
+      var go = el("button", "act spacer");
+      go.type = "button";
+      go.textContent = w.type === "link" ? "開啟 ↗" : "打開";
+      go.addEventListener("click", function () { openWork(w.id); });
+      foot.appendChild(go);
+
+      if (canDelete(w)) {
+        var rm = el("button", "act");
+        rm.type = "button";
+        rm.style.color = "var(--like)";
+        rm.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>刪除';
+        rm.setAttribute("aria-label", "刪除作品 #" + w.no);
+        rm.addEventListener("click", function () { removeWork(w); });
+        foot.appendChild(rm);
+      }
+
+      card.appendChild(foot);
+      cardIndex[w.id] = { card: card, like: lb, cmt: cb };
+      wall.appendChild(card);
+    });
+  }
+
+  /* ================= 詳情 ================= */
+  function openWork(id, focusComment) {
+    pausePreviews();
+    openId = id;
+    renderSheet(focusComment, true);
+    $("#scrim").hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+  function closeSheet() {
+    if (sheetMax) { setMax(false); }
+    openId = null;
+    resumePreviews();
+    $("#sheetwrap").textContent = "";
+    $("#scrim").hidden = true;
+    document.body.style.overflow = "";
+  }
+  $("#scrim").addEventListener("mousedown", function (e) { if (e.target === $("#scrim")) { closeSheet(); } });
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape") { return; }
+    if (!$("#linkscrim").hidden) { $("#linkscrim").hidden = true; }
+    else if (!$("#catscrim").hidden) { $("#catscrim").hidden = true; }
+    else if (!$("#delscrim").hidden) { $("#delscrim").hidden = true; }
+    else if (!$("#adminscrim").hidden) { $("#adminscrim").hidden = true; }
+    else if (!$("#gate").hidden && gatePending) { closeGate(false); }
+    else if (openId && sheetMax) { setMax(false); paintFs(); }
+    else if (openId) { closeSheet(); }
+  });
+
+  function stageFor(w) {
+    var stage = el("div", "stage");
+    var inner = el("div", "stage-in");
+    if (w.type === "web" && w.fileId) {
+      inner.style.display = "block";
+      inner.appendChild(sandboxFrame(w, true));
+    } else if (w.type === "image" && w.fileId) {
+      var i = el("img");
+      i.alt = "作品 #" + w.no;
+      i.referrerPolicy = "no-referrer";
+      i.src = thumbUrl(w.fileId, 1600);
+      inner.appendChild(i);
+    } else if ((w.type === "video" || w.type === "audio") && w.fileId) {
+      var pf = el("iframe", "live");
+      pf.src = playerUrl(w.fileId);
+      pf.allow = "autoplay";
+      pf.title = "作品 #" + w.no;
+      if (w.type === "audio") { pf.style.minHeight = "220px"; }
+      inner.style.display = "block";
+      inner.appendChild(pf);
+    } else if (w.url) {
+      var ls = el("div", "link-stage");
+      var lab = el("div", "mono");
+      lab.style.cssText = "font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)";
+      lab.textContent = "外部作品";
+      var host = el("div");
+      host.style.cssText = "font-size:17px;font-weight:700;overflow-wrap:anywhere";
+      try { host.textContent = new URL(w.url).hostname.replace(/^www\./, ""); } catch (e) { host.textContent = ""; }
+      var go = el("a", "btn primary");
+      go.href = w.url; go.target = "_blank"; go.rel = "noopener noreferrer";
+      go.textContent = "在新分頁開啟作品 ↗";
+      go.style.textDecoration = "none";
+      ls.appendChild(lab); ls.appendChild(host); ls.appendChild(go);
+      inner.appendChild(ls);
+    } else {
+      var miss = el("div", "link-stage");
+      var mp = el("p", "hint"); mp.textContent = "這件作品的檔案讀不到了。";
+      miss.appendChild(mp);
+      inner.appendChild(miss);
+    }
+    stage.appendChild(inner);
+    return stage;
+  }
+
+  var sheetStageFor = null;
+  var sheetMax = false;
+
+  function setMax(on) {
+    sheetMax = on;
+    $("#sheetwrap").classList.toggle("max", on);
+    try {
+      if (on && document.fullscreenEnabled && !document.fullscreenElement) {
+        var r = $("#scrim").requestFullscreen();
+        if (r && r.catch) { r.catch(function () { /* 瀏覽器不給就維持滿版視窗 */ }); }
+      } else if (!on && document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+    } catch (e) { /* 維持滿版視窗即可 */ }
+  }
+  document.addEventListener("fullscreenchange", function () {
+    if (!document.fullscreenElement && sheetMax) { setMax(false); paintFs(); }
+  });
+
+  function paintFs(b) {
+    b = b || $("#sheetwrap .fsbtn");
+    if (!b) { return; }
+    b.innerHTML = sheetMax
+      ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 3v6H3M15 21v-6h6"/></svg>縮小'
+      : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>全螢幕';
+    b.title = sheetMax ? "回到原來大小" : "把作品放大到整個畫面";
+  }
+  function fsButton() {
+    var b = el("button", "fsbtn");
+    b.type = "button";
+    b.addEventListener("click", function () { setMax(!sheetMax); paintFs(b); });
+    paintFs(b);
+    return b;
+  }
+  /** 畫出（或重畫）某件作品的評論區 */
+  function fillComments(list, w) {
+    list.textContent = "";
+    var cs = cmtsOf(w.id);
+    if (!cs.length) {
+      var e0 = el("p", "hint"); e0.style.margin = "0";
+      e0.textContent = "還沒有人留言。說說哪裡好玩、哪裡可以更好。";
+      list.appendChild(e0);
+    }
+    cs.forEach(function (c) {
+      var row = el("div", "cmt");
+      var a = el("span", "av");
+      a.style.cssText = "width:28px;height:28px;background:" + avColor(c.name);
+      a.textContent = initial(c.name);
+      row.appendChild(a);
+      var b = el("div");
+      var who2 = el("div", "who");
+      who2.textContent = c.name;
+      var when = el("span", "when"); when.textContent = ago(c.at);
+      who2.appendChild(when);
+      if (c.mine) {
+        var dl2 = el("button", "del"); dl2.type = "button"; dl2.textContent = "刪除";
+        dl2.addEventListener("click", function () {
+          api("deleteComment", c.id).then(reload).catch(function (err) { toast(err.message); });
+        });
+        who2.appendChild(dl2);
+      }
+      b.appendChild(who2);
+      var p2 = el("p"); p2.textContent = c.text; b.appendChild(p2);
+      row.appendChild(b);
+      list.appendChild(row);
+    });
+  }
+
+  /** 資料更新時只改讚數和評論，不碰正在執行的作品 */
+  function updateSheet() {
+    var w = workById(openId);
+    var wrap = $("#sheetwrap");
+    if (!w) { closeSheet(); return; }
+    if (!wrap.querySelector(".sheet")) { renderSheet(false, true); return; }
+
+    var lb = wrap.querySelector(".side-acts .act");
+    if (lb) {
+      lb.className = "act" + (w.liked ? " liked" : "");
+      lb.innerHTML = heartSvg(w.liked) + '<span class="n">' + w.likes + "</span>";
+    }
+    var names = wrap.querySelector(".side-acts .hint");
+    if (names && w.likeNames) {
+      names.textContent = w.likeNames.slice(0, 3).join("、") +
+        (w.likeNames.length > 3 ? " 等 " + w.likeNames.length + " 人說讚" : " 說讚");
+    }
+    var list = wrap.querySelector(".cmts");
+    if (list) { fillComments(list, w); }
+  }
+
+  function renderSheet(focusComment, fresh) {
+    var w = workById(openId);
+    var wrap = $("#sheetwrap");
+    if (!w) { closeSheet(); return; }
+
+    var oldSheet = wrap.querySelector(".sheet");
+    var keepStage = !fresh && oldSheet && sheetStageFor === w.id ? oldSheet.querySelector(".stage") : null;
+    var draft = wrap.querySelector(".cmt-form textarea");
+    var draftText = draft ? draft.value : "";
+
+    wrap.textContent = "";
+    var close = el("button", "sheet-close");
+    close.type = "button"; close.innerHTML = "&times;"; close.setAttribute("aria-label", "關閉");
+    close.addEventListener("click", closeSheet);
+    wrap.appendChild(close);
+
+    var sheet = el("div", "sheet");
+    var stage = keepStage || stageFor(w);
+    var oldBtn = stage.querySelector(".fsbtn");
+    if (oldBtn) { oldBtn.remove(); }
+    stage.appendChild(fsButton());
+    sheet.appendChild(stage);
+    sheetStageFor = w.id;
+
+    var side = el("div", "side");
+    var head = el("div", "side-head");
+    var top = el("div", "card-top");
+    top.appendChild(numberEl(w));
+    top.appendChild(kindEl(w));
+    head.appendChild(top);
+    if (me.isAdmin) { head.appendChild(secretEl(w)); }
+
+    var by = el("div", "byline");
+    var av = el("span", "av");
+    av.style.cssText = "width:20px;height:20px;font-size:10px;background:" + avColor(w.avatar || w.author);
+    av.textContent = initial(w.author);
+    by.appendChild(av);
+    by.appendChild(document.createTextNode(w.author + " · " + w.cls + " 班 · " + ago(w.at)));
+    head.appendChild(by);
+    if (w.desc) { var d = el("p", "desc"); d.textContent = w.desc; head.appendChild(d); }
+    if (w.tags && w.tags.length) {
+      var tg = el("div", "tags");
+      w.tags.forEach(function (x) { var s = el("span", "tag"); s.textContent = "#" + x; tg.appendChild(s); });
+      head.appendChild(tg);
+    }
+    side.appendChild(head);
+
+    var acts = el("div", "side-acts");
+    var lb = el("button", "act" + (w.liked ? " liked" : ""));
+    lb.type = "button";
+    lb.innerHTML = heartSvg(w.liked) + '<span class="n">' + w.likes + "</span>";
+    lb.addEventListener("click", function () { toggleLike(w); });
+    acts.appendChild(lb);
+    if (w.likeNames && w.likeNames.length) {
+      var who = el("span", "hint");
+      who.textContent = w.likeNames.slice(0, 3).join("、") + (w.likeNames.length > 3 ? " 等 " + w.likeNames.length + " 人說讚" : " 說讚");
+      acts.appendChild(who);
+    }
+    if (canDelete(w) && cats.length) {
+      var mv = el("select", "catmove spacer");
+      mv.title = "換到別的分類";
+      cats.forEach(function (c) {
+        if (c.archived) { return; }
+        var o = el("option");
+        o.value = c.id;
+        o.textContent = (c.icon || "") + " " + c.name;
+        mv.appendChild(o);
+      });
+      mv.value = w.catId || NO_CAT;
+      mv.addEventListener("change", function () {
+        var to = mv.value;
+        mv.disabled = true;
+        api("moveWork", w.id, to).then(function () {
+          var c = catById(to);
+          toast("已搬到「" + (c ? c.name : "未分類") + "」");
+          closeSheet();
+          return reload();
+        }).catch(function (err) { toast(err.message); mv.disabled = false; });
+      });
+      acts.appendChild(mv);
+    }
+    if (canDelete(w)) {
+      var del = el("button", "act" + (cats.length ? "" : " spacer"));
+      del.type = "button"; del.textContent = "刪除作品";
+      del.style.color = "var(--like)";
+      del.addEventListener("click", function () { removeWork(w); });
+      acts.appendChild(del);
+    }
+    side.appendChild(acts);
+
+    var list = el("div", "cmts");
+    fillComments(list, w);
+    side.appendChild(list);
+
+    var form = el("form", "cmt-form");
+    var ta = el("textarea");
+    ta.placeholder = "給作品 #" + w.no + " 一點回饋…";
+    ta.maxLength = 500;
+    ta.value = draftText;
+    form.appendChild(ta);
+    var row2 = el("div"); row2.style.cssText = "display:flex;justify-content:flex-end";
+    var send = el("button", "btn primary"); send.type = "submit"; send.textContent = "送出評論";
+    row2.appendChild(send);
+    form.appendChild(row2);
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var text = ta.value.trim();
+      if (!text) { return; }
+      ensureMe().then(function (ok) {
+        if (!ok) { return; }
+        send.disabled = true; send.textContent = "送出中…";
+        api("addComment", w.id, text).then(function () {
+          ta.value = "";
+          return reload();
+        }).catch(function (err) { toast(err.message); })
+          .then(function () { send.disabled = false; send.textContent = "送出評論"; });
+      });
+    });
+    side.appendChild(form);
+
+    sheet.appendChild(side);
+    wrap.appendChild(sheet);
+    if (focusComment) { setTimeout(function () { ta.focus(); }, 40); }
+  }
+
+  /* ================= 動作 ================= */
+  function toggleLike(w) {
+    ensureMe().then(function (ok) {
+      if (!ok) { return; }
+      w.liked = !w.liked;                       // 先改畫面，讓按起來有反應
+      w.likes += w.liked ? 1 : -1;
+      renderWall();
+      if (openId) { updateSheet(); }
+      api("toggleLike", w.id).then(reload).catch(function (err) {
+        toast(err.message);
+        reload();
+      });
+    });
+  }
+
+  function removeWork(w) {
+    if (!window.confirm("刪除作品 #" + w.no + "？讚和評論會一起消失，無法復原。之後的作品不會改號。")) { return; }
+    if (openId === w.id) { closeSheet(); }
+    toast("刪除中…", true);
+    api("deleteWork", w.id).then(function () {
+      toast("作品 #" + w.no + " 已刪除");
+      return reload();
+    }).catch(function (err) { toast(err.message); });
+  }
+
+  /* ================= 上傳 ================= */
+  function extOf(name) { var m = /\.([^.]+)$/.exec(name || ""); return m ? m[1].toLowerCase() : ""; }
+  function baseName(name) { return String(name || "").replace(/\.[^.]+$/, ""); }
+  function classify(f) {
+    var ext = extOf(f.name), t = f.type || "";
+    if (ext === "html" || ext === "htm" || t === "text/html") { return "web"; }
+    if (t.indexOf("image/") === 0) { return "image"; }
+    if (t.indexOf("video/") === 0 || ["mp4", "webm", "mov", "m4v"].indexOf(ext) >= 0) { return "video"; }
+    if (t.indexOf("audio/") === 0 || ["mp3", "wav", "m4a", "ogg", "aac"].indexOf(ext) >= 0) { return "audio"; }
+    return "";
+  }
+  function readText(f) {
+    return f.text ? f.text() : new Promise(function (res, rej) {
+      var r = new FileReader(); r.onload = function () { res(r.result); }; r.onerror = rej; r.readAsText(f);
+    });
+  }
+  function sliceB64(f, start, end) {
+    return new Promise(function (res, rej) {
+      var r = new FileReader();
+      r.onload = function () { res(String(r.result).split(",")[1] || ""); };
+      r.onerror = rej;
+      r.readAsDataURL(f.slice(start, end));
+    });
+  }
+  function uploadFile(f, extra, onProgress) {
+    var type = classify(f);
+    var title = extra.title || baseName(f.name);
+    if (!type) { return Promise.reject(new Error("不支援這種檔案（." + (extOf(f.name) || "?") + "）")); }
+    if (type === "web") {
+      return readText(f).then(function (code) {
+        if (!code.trim()) { throw new Error("檔案是空的"); }
+        return api("postCode", curCat ? curCat.id : "", title, code, extra.desc || "", extra.tags || []);
+      });
+    }
+    var sid = Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+    var total = Math.max(1, Math.ceil(f.size / CHUNK));
+    var ids = [];
+    var seq = Promise.resolve();
+    for (var i = 0; i < total; i++) {
+      (function (idx) {
+        seq = seq.then(function () {
+          if (onProgress) { onProgress(idx + 1, total); }
+          return sliceB64(f, idx * CHUNK, Math.min(f.size, (idx + 1) * CHUNK));
+        }).then(function (b64) {
+          return api("uploadChunk", sid, idx, total, b64);
+        }).then(function (r) { ids.push(r.id); });
+      }(i));
+    }
+    return seq.then(function () {
+      return api("finishUpload", curCat ? curCat.id : "", sid, ids, f.name, f.type, type,
+        title, extra.desc || "", extra.tags || []);
+    });
+  }
+
+  function handleFiles(fileList) {
+    var files = Array.prototype.slice.call(fileList || []);
+    if (!files.length) { return; }
+    if (!curCat) { toast("先點進一個分類，再把檔案放進來"); return; }
+    if (busy) { toast("上一批還在上傳，等它完成再拖"); return; }
+    ensureMe().then(function (ok) {
+      if (!ok) { return; }
+      if (view !== me.cls) { setView(me.cls); }
+      busy = true;
+      var done = [], failed = [];
+      var seq = Promise.resolve();
+      files.forEach(function (f, i) {
+        seq = seq.then(function () {
+          return uploadFile(f, {}, function (part, total) {
+            toast("上傳中 " + (i + 1) + " / " + files.length + (total > 1 ? "（第 " + part + "/" + total + " 段）" : "") + "…", true);
+          }).then(function (no) { done.push("#" + no); })
+            .catch(function (err) { failed.push("第 " + (i + 1) + " 個檔案：" + err.message); });
+        });
+      });
+      seq.then(function () {
+        busy = false;
+        if (failed.length && !done.length) { toast(failed.join("；")); }
+        else if (failed.length) { toast("已貼上 " + done.join("、") + "。" + failed.join("；")); }
+        else { toast("已貼上 " + me.cls + " 班：作品 " + done.join("、")); }
+        return reload();
+      });
+    });
+  }
+
+  var dragDepth = 0;
+  function hasFiles(e) {
+    var t = e.dataTransfer && e.dataTransfer.types;
+    return !!t && Array.prototype.indexOf.call(t, "Files") >= 0;
+  }
+  window.addEventListener("dragenter", function (e) {
+    if (!hasFiles(e)) { return; }
+    e.preventDefault();
+    dragDepth++;
+    $("#dc-title").textContent = curCat
+      ? "放開就貼到「" + curCat.name + "」· " + (me.cls || "你的") + " 班"
+      : "請先點進一個分類";
+    $("#dragcover").hidden = false;
+  });
+  window.addEventListener("dragover", function (e) { if (hasFiles(e)) { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; } });
+  window.addEventListener("dragleave", function (e) {
+    if (!hasFiles(e)) { return; }
+    dragDepth = Math.max(0, dragDepth - 1);
+    if (!dragDepth) { $("#dragcover").hidden = true; }
+  });
+  window.addEventListener("drop", function (e) {
+    if (!hasFiles(e)) { return; }
+    e.preventDefault();
+    dragDepth = 0;
+    $("#dragcover").hidden = true;
+    handleFiles(e.dataTransfer.files);
+  });
+
+  /* ================= 表單 ================= */
+  var compType = "web";
+  var pickedFiles = [];
+  (function buildTypeGrid() {
+    var g = $("#typegrid");
+    ORDER.forEach(function (k) {
+      var t = TYPES[k];
+      var b = el("button", "tbtn");
+      b.type = "button"; b.dataset.k = k; b.style.color = t.color;
+      b.setAttribute("aria-pressed", String(k === compType));
+      b.innerHTML = '<span class="n">' + esc(t.name) + '</span><span class="d">' + esc(t.desc) + "</span>";
+      b.addEventListener("click", function () { setCompType(k); });
+      g.appendChild(b);
+    });
+  }());
+  function setCompType(k) {
+    compType = k;
+    pickedFiles = [];
+    $("#w-file").value = "";
+    $("#drop-text").textContent = "點這裡選檔案（可以一次選很多個）";
+    Array.prototype.forEach.call($("#typegrid").children, function (c) {
+      c.setAttribute("aria-pressed", String(c.dataset.k === k));
+    });
+    var mode = TYPES[k].input;
+    $("#f-code").hidden = mode !== "code";
+    $("#f-file").hidden = mode !== "file";
+    $("#f-url").hidden = mode !== "url";
+    if (mode === "file") { $("#w-file").accept = TYPES[k].accept || ""; }
+    $("#comp-err").textContent = "";
+  }
+  setCompType("web");
+  $("#btn-add").addEventListener("click", function () {
+    ensureMe().then(function (ok) {
+      if (!ok) { return; }
+      var c = $("#composer");
+      c.hidden = !c.hidden;
+      $("#comp-title").textContent = "貼作品到 " + me.cls + " 班";
+      if (!c.hidden) { setTimeout(function () { $("#w-title").focus(); }, 60); }
+    });
+  });
+  $("#comp-close").addEventListener("click", function () { $("#composer").hidden = true; });
+  $("#w-file").addEventListener("change", function (e) {
+    pickedFiles = Array.prototype.slice.call(e.target.files || []);
+    if (!pickedFiles.length) { return; }
+    var mb = pickedFiles.reduce(function (sum, f) { return sum + f.size; }, 0) / 1048576;
+    $("#drop-text").textContent = pickedFiles.length === 1
+      ? "已選擇 1 個檔案（" + mb.toFixed(1) + " MB）"
+      : "已選擇 " + pickedFiles.length + " 個檔案（共 " + mb.toFixed(1) + " MB）";
+  });
+  $("#composer").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var errBox = $("#comp-err");
+    errBox.textContent = "";
+    var mode = TYPES[compType].input;
+    var title = $("#w-title").value.trim();
+    var desc = $("#w-desc").value.trim();
+    var tags = $("#w-tags").value.trim().split(/[\s,，、#]+/).filter(Boolean).slice(0, 6);
+    var code = $("#w-code").value;
+    var url = $("#w-url").value.trim();
+
+    if (mode === "code" && !code.trim()) { errBox.textContent = "把程式碼貼進來，同學才點得開。"; return; }
+    if (mode === "url" && !/^https?:\/\/.+/i.test(url)) { errBox.textContent = "連結要以 http:// 或 https:// 開頭。"; return; }
+    if (mode === "file" && !pickedFiles.length) { errBox.textContent = "選至少一個要上傳的檔案。"; return; }
+
+    ensureMe().then(function (ok) {
+      if (!ok) { return; }
+      if (view !== me.cls) { setView(me.cls); }
+      var btn = $("#comp-submit");
+      btn.disabled = true; btn.textContent = "貼上中…";
+      var job;
+      var cid = curCat ? curCat.id : "";
+      if (mode === "code") { job = api("postCode", cid, title, code, desc, tags); }
+      else if (mode === "url") { job = api("postLink", cid, title, url, desc, tags); }
+      else if (pickedFiles.length === 1) {
+        job = uploadFile(pickedFiles[0], { title: title, desc: desc, tags: tags }, function (part, total) {
+          if (total > 1) { btn.textContent = "上傳中 " + part + "/" + total + "…"; }
+        });
+      } else {
+        // 一次選了好幾個：逐一上傳，作品名稱各自用檔名
+        var nos = [], bad = [];
+        job = pickedFiles.reduce(function (seq, f, i) {
+          return seq.then(function () {
+            btn.textContent = "上傳中 " + (i + 1) + "/" + pickedFiles.length + "…";
+            return uploadFile(f, { desc: desc, tags: tags })
+              .then(function (no) { nos.push("#" + no); })
+              .catch(function (err) { bad.push(f.name + "：" + err.message); });
+          });
+        }, Promise.resolve()).then(function () {
+          if (bad.length) { toast("有 " + bad.length + " 個沒上傳成功：" + bad[0]); }
+          if (!nos.length) { throw new Error(bad[0] || "都沒有成功"); }
+          return nos.join("、");
+        });
+      }
+      job.then(function (result) {
+        $("#composer").hidden = true;
+        ["#w-title", "#w-desc", "#w-tags", "#w-code", "#w-url"].forEach(function (sel) { $(sel).value = ""; });
+        pickedFiles = []; $("#w-file").value = "";
+        $("#drop-text").textContent = "點這裡選檔案（可以一次選很多個）";
+        toast("已貼上「" + (curCat ? curCat.name : "") + "」：作品 " +
+          (String(result).charAt(0) === "#" ? result : "#" + result));
+        return reload();
+      }).catch(function (err) {
+        errBox.textContent = "沒貼成功：" + err.message + "。";
+      }).then(function () {
+        btn.disabled = false; btn.textContent = "貼上作品牆";
+      });
+    });
+  });
+
+  /* ================= 載入 ================= */
+  function reload() {
+    if (!curCat) { return loadCats(); }
+    if (!view) { return Promise.resolve(); }
+    var cls = view;
+    return api("listWorks", cls, curCat ? curCat.id : "").then(function (r) {
+      if (cls !== view) { return; }
+      var sig = cls + "|" + r.isAdmin + "|" + JSON.stringify(r.works) + "|" + JSON.stringify(r.comments);
+      if (sig === lastSig) { return; }          // 沒有人動過，畫面就別碰
+      lastSig = sig;
+      state.works = r.works;
+      state.comments = r.comments;
+      if (r.isAdmin !== me.isAdmin) { me.isAdmin = r.isAdmin; paintMe(); }
+      renderWall();
+      if (openId) { updateSheet(); }
+    }).catch(function (err) {
+      $("#offline").textContent = "讀取資料時出錯：" + err.message;
+      $("#offline").hidden = false;
+    });
+  }
+  function setView(cls) {
+    if (openId) { closeSheet(); }
+    view = cls;
+    buildClassbar();
+    paintRoute();
+    paintVisiting();
+    lastSig = ""; lastIds = ""; cardIndex = {};
+    state.works = []; state.comments = [];
+    renderWall();
+    return reload();
+  }
+
+  renderWall();
+  api("bootstrap").then(function (info) {
+    me = info;
+    view = me.cls || me.classes[0];
+    paintMe();
+    buildClassbar();
+    paintRoute();
+    if (!me.cls || !me.name) { openGate(false); }
+    return loadCats();
+  }).catch(function (err) {
+    $("#offline").textContent = "連不上伺服器：" + err.message + "。請重新整理頁面。";
+    $("#offline").hidden = false;
+  });
+
+  setInterval(function () {
+    if (!busy && !document.hidden && view) { reload(); }
+  }, POLL_MS);
+}());
+</script>
+
+</body>
+</html>
